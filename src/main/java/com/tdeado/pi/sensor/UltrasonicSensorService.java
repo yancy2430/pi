@@ -19,6 +19,11 @@ public class UltrasonicSensorService {
     private GpioPinDigitalOutput trigGiopPin;
     private GpioPinDigitalInput echoGiopPin;
 
+    /**
+     * 初始化端口
+     * @param trig
+     * @param echo
+     */
     public UltrasonicSensorService(Pin trig,Pin echo) {
         this.trig = trig;
         this.echo = echo;
@@ -26,6 +31,11 @@ public class UltrasonicSensorService {
         echoGiopPin = gpio.provisionDigitalInputPin(echo);
     }
 
+    /**
+     *
+     * @return 返回距离 单位毫米
+     * @throws InterruptedException
+     */
     public long ranging() throws InterruptedException {
         trigGiopPin.setState(PinState.HIGH);
         TimeUnit.MICROSECONDS.sleep(10);

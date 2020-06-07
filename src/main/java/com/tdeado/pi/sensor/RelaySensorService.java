@@ -2,6 +2,9 @@ package com.tdeado.pi.sensor;
 
 import com.pi4j.io.gpio.*;
 
+/**
+ * 单路继电器
+ */
 public class RelaySensorService {
     private final GpioController gpio = GpioFactory.getInstance();
     private Pin pin =null;
@@ -10,7 +13,6 @@ public class RelaySensorService {
         this.pin = pin;
         giopPin = gpio.provisionDigitalOutputPin(pin);
     }
-
     /**
      * 继电器开
      * @return
