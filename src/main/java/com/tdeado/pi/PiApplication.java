@@ -30,8 +30,8 @@ public class PiApplication extends SpringBootServletInitializer implements Comma
             stepperMotorService.start();
             TimeUnit.SECONDS.sleep(20);
             stepperMotorService.stop();
-            System.err.println("结束");
         }finally {
+            System.err.println("清理gpio");
             gpio.unexportAll();
         }
     }
