@@ -26,10 +26,10 @@ public class PiApplication extends SpringBootServletInitializer implements Comma
     public void run(String... args) throws Exception {
         try {
             gpio.unexportAll();
-//            StepperMotorService stepperMotorService = new StepperMotorService(RaspiPin.GPIO_22,RaspiPin.GPIO_23,RaspiPin.GPIO_24,RaspiPin.GPIO_25);
-//            stepperMotorService.start();
-//            TimeUnit.SECONDS.sleep(20);
-//            stepperMotorService.stop();
+            StepperMotorService stepperMotorService = new StepperMotorService(RaspiPin.GPIO_22,RaspiPin.GPIO_23,RaspiPin.GPIO_24,RaspiPin.GPIO_25);
+            stepperMotorService.start();
+            TimeUnit.SECONDS.sleep(20);
+            stepperMotorService.stop();
         }finally {
             System.err.println("清理gpio");
             gpio.unexportAll();
