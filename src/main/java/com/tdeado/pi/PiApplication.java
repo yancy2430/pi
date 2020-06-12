@@ -1,18 +1,12 @@
 package com.tdeado.pi;
 
-import ch.qos.logback.core.util.TimeUtil;
 import com.pi4j.io.gpio.*;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
-import com.tdeado.pi.sensor.RelaySensorService;
-import com.tdeado.pi.sensor.UltrasonicSensorService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
@@ -30,16 +24,18 @@ public class PiApplication extends SpringBootServletInitializer implements Comma
     @Override
     public void run(String... args) throws Exception {
         gpio.unexportAll();
+        GpioPinPwmOutput in1 = gpio.provisionSoftPwmOutputPin(RaspiPin.GPIO_22);
+        GpioPinDigitalOutput in2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, PinState.LOW);
         System.err.println("开始");
-        UltrasonicSensorService ultrasonicSensorService = new UltrasonicSensorService(RaspiPin.GPIO_24,RaspiPin.GPIO_25);
-        for (int i = 0; i < 5; i++) {
-            long nm = ultrasonicSensorService.ranging();
-            System.err.println("计算结果 距离"+nm+"毫米");
-            System.err.println("计算结果 距离"+nm/10+"厘米");
-            TimeUnit.SECONDS.sleep(5);
+        for (int i = 1; i <= 100; i++) {
+            in1.setPwm(i);
+            System.err.println(i);
+            TimeUnit.SECONDS.sleep(1);
         }
+        in1.setPwm(0);
+        in2.setState(PinState.LOW);
         gpio.unexportAll();
-        System.err.println("结束测量");
+        System.err.println("结束");
     }
 
 }
