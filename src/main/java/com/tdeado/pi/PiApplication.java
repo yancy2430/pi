@@ -1,6 +1,7 @@
 package com.tdeado.pi;
 
 import com.pi4j.io.gpio.*;
+import com.tdeado.pi.sensor.StepperMotorService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,17 +25,10 @@ public class PiApplication extends SpringBootServletInitializer implements Comma
     @Override
     public void run(String... args) throws Exception {
         gpio.unexportAll();
-        GpioPinPwmOutput in1 = gpio.provisionSoftPwmOutputPin(RaspiPin.GPIO_22);
-        GpioPinDigitalOutput in2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, PinState.LOW);
-        System.err.println("开始");
-        for (int i = 1; i <= 100; i++) {
-            in1.setPwm(i);
-            System.err.println(i);
-            TimeUnit.SECONDS.sleep(1);
-        }
-        in1.setPwm(0);
-        in2.setState(PinState.LOW);
-        gpio.unexportAll();
+        StepperMotorService stepperMotorService = new StepperMotorService(RaspiPin.GPIO_22,RaspiPin.GPIO_23,RaspiPin.GPIO_24,RaspiPin.GPIO_25);
+        stepperMotorService.start();
+        TimeUnit.SECONDS.sleep(20);
+        stepperMotorService.stop();
         System.err.println("结束");
     }
 
