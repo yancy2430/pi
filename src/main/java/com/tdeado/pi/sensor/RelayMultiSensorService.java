@@ -16,7 +16,9 @@ public class RelayMultiSensorService {
         giopPins = new ArrayList<>();
         this.pins = pins;
         for (Pin pin : pins) {
-            giopPins.add(gpio.provisionDigitalOutputPin(pin,PinState.LOW));
+            GpioPinDigitalOutput pn = gpio.provisionDigitalOutputPin(pin, PinState.LOW);
+            pn.setMode(PinMode.DIGITAL_OUTPUT);
+            giopPins.add(pn);
         }
     }
     public RelayMultiSensorService(PinState state,Pin... pins) {
